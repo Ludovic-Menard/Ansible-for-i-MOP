@@ -1,0 +1,38 @@
+---
+- hosts: ibmi
+  gather_facts: false
+  collections:
+     - ibm.power_ibmi
+  tasks:
+
+    - name: Stop HTTP server
+      ibmi_tcp_server_service:
+         name_list: ['*HTTP']
+         state: 'stopped'
+         joblog: true
+      register: stop_result
+    - debug:
+       var: stop_result
+
+    - name: delete ansible library
+      ibmi_cl_command:
+        cmd: dltlib lib(ansible)
+        joblog: false
+      register: dltlib_result
+    - debug:
+       var: dltlib_result
+
+    - name: delete TeamX user profile
+      ibmi_user_and_group:
+        operation: 'delete'
+        user: 'team1'
+      register: user_result
+    - debug:
+       var: user_result
+     
+    - name: Uninstall product XH2 with DLTLICPGM command
+      ibmi_uninstall_product:
+        product: 5770XH2
+      register: uninstall
+    - debug:
+       var: uninstall

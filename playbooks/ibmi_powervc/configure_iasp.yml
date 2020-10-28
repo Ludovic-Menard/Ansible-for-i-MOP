@@ -1,0 +1,60 @@
+---
+- name: IBM i VM initalization
+  hosts: localhost
+
+  vars:
+    cloud_name: 'pvcmop'
+    vm_name: 'IBMi_Ansible'
+    vm_hostname: 'ludo' 
+    image: 'IBMi_V7R4_last'
+    nics:
+      - net-name: 'VLAN360'
+    vm_group: "Demo-ibmi"
+    user_data: |
+      {%- raw -%}#!/bin/sh
+      system "chgusrprf usrprf(qciuser) password(passw0rd) status(*enabled) usrcls(*secofr) spcaut(*allobj *iosyscfg *jobctl *secadm *audit *service *splctl *savsys)"
+      system "chgtcpsvr svrsrcval(*sshd) autostart(*yes)"  
+      system "strtcpsvr *sshd"
+      {% endraw %}
+    compute_template: 'IBMi'  
+    volume_number: 4
+    volume_size: 10
+    volume_name_prefix: 'ludo'
+    storage_template_id: 'c4ee6efc-3d45-44f1-af1e-cfeb46504a82'
+
+  roles:
+    - role: vm_create
+
+  tasks:
+    - include_role: 
+        name: vm_volume_attach
+      vars: 
+        vm: "{{ server_info.openstack.id }}"
+        volume_name: '{{volume_name_prefix}}_{{item}}'
+      with_sequence: count={{volume_number}}
+
+    - name: Add VM to Ansible in-memory inventory
+      add_host:
+        name: "{{ server_info.openstack.public_v4 }}"
+        ansible_user: qciuser 
+        ansible_ssh_pass: passw0rd
+        groups: new_vm
+        ansible_ssh_extra_args: -o StrictHostKeyChecking=no
+        ansible_python_interpreter: /QOpensys/pkgs/bin/python2
+
+- name: Configure new VM
+  hosts: new_vm
+  gather_facts: False
+  vars:
+    iasp_info:
+      - {'iasp_name': 'demoiasp1', 'iasp_capacity': 0.5}
+      - {'iasp_name': 'demoiasp3', 'iasp_capacity': 1}
+  tasks:
+    - name: Wait for VM to become reachable over SSH
+      wait_for_connection:
+        delay: 240
+
+    - include_role:
+        name: vm_iasp_configure
+
+

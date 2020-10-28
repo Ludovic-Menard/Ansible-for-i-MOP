@@ -1,0 +1,21 @@
+---
+- hosts: ibmi
+  gather_facts: false
+  collections:
+    - ibm.power_ibmi
+
+  tasks:
+    
+    - name: create user profile xxxxx
+      ibmi_user_and_group:
+        operation: 'create'
+        user: 'XXXXX'
+        user_class: '*SECOFR'
+      register: user_result
+    - debug:
+       var: user_result
+
+    - name: display user profile team1
+      ibmi_user_and_group:
+        operation: 'display'
+        user: 'team1'

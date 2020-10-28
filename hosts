@@ -1,0 +1,7 @@
+#Inventory
+[ibmi]
+10.3.60.XXX ansible_ssh_user=ansible ansible_ssh_pass=ansible
+
+[ibmi:vars]
+ansible_python_interpreter="/QOpensys/pkgs/bin/python3"
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

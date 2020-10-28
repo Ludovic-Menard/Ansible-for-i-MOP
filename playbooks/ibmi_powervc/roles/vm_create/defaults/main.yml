@@ -1,0 +1,15 @@
+---
+# defaults file for powervc_vm_create
+vm_name: ibmi_demo
+vm_hostname: neo143
+vm_group: ibmi_demos
+image_name: ibmi-demo
+nics:
+  - net_name: Demo-pub
+flavor_name: lj
+userdata: '|
+      {%- raw -%}#!/bin/sh
+      system "crtusrprf usrprf(test) password(testpwd) status(*enabled) usrcls(*secofr) spcaut(*allobj *iosyscfg *jobctl *secadm *audit *service *splctl *savsys)"
+      system "chgtcpsvr svrspcval(*sshd) autostart(*yes)"  
+      system "strtcpsvr *sshd"
+      {% endraw %}'

@@ -1,0 +1,15 @@
+---
+# List available OpenStack Flavors
+- name: Retrieve all available Openstack flavors
+  os_flavor_info:
+  register: flavors_list
+
+- name: Show detailed list of flavors
+  debug:
+    var: flavors_list.openstack_flavors
+  when: details | bool
+
+- name: Show flavors
+  debug:
+    var: flavors_list.openstack_flavors |
+         items2dict(key_name='name', value_name='id')

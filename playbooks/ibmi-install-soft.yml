@@ -1,0 +1,35 @@
+---
+- hosts: ibmi
+  gather_facts: no
+
+  tasks:
+
+    - name: Copy file OPT23.FILE from Ansible partition to IBM i partition to IFS /home/ansible
+      copy:
+        src: files/OPT23.FILE
+        dest: /home/ansible
+        backup: true
+        force: true
+
+    - name: mv SAVF OPT23 to library ANSIBLE
+      command: 'mv /home/ansible/OPT23.FILE /QSYS.LIB/ANSIBLE.LIB/'
+      #with_dict: "{{targets}}"
+
+    - name: run the CL command to restore LICPGM 5770SS1 OPT 23 Opticonnect
+      ibmi_cl_command:
+        cmd: rstlicpgm licpgm(5770SS1) dev(*savf) option(23) savf(ansible/opt23)
+      register: rstlicpgm_result
+      ignore_errors: True
+
+#    - name: rstlicpgm Licence Program 5770SS1 OPT 23 Opticonnect
+#      command: system "RSTLICPGM LICPGM(5770SS1) DEV(*SAVF) OPTION(23) SAVF(ANSIBLE/OPT23)"
+
+    #- name: display licpgm installed
+    #  command: system "dspsfwrsc"
+    #  register: output
+      
+    #- name: Output
+    #  debug:
+    #    msg: |
+    #      "Return_code: {{ output.rc }}
+    #       output: {{ output.stdout }}"

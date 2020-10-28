@@ -1,0 +1,20 @@
+---
+# tasks file for vm_create
+- name: VM initalization -> Deploying IBM i VM {{ vm_name }}
+  os_server:
+    state: present
+    cloud: "{{ cloud_name }}"
+    name: "{{ vm_name }}"
+    image: "{{ image }}"
+    timeout: 200
+    flavor: "{{ compute_template}}"
+    nics: "{{ nics }}"
+    meta:
+      hostname: "{{ vm_hostname }}"
+      group: "{{ vm_group }}"
+    userdata: "{{user_data}}"
+  register: server_info
+
+- name: VM initalization -> Deployed IBM i VM {{ vm_name }}
+  debug:
+    var: server_info.openstack.public_v4

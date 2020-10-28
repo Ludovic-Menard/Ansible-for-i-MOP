@@ -1,0 +1,19 @@
+---
+# tasks file for vm_volume_attach
+- name: Creating new volume
+  os_volume:
+    state: present
+    cloud: '{{cloud_name}}'
+    size: '{{volume_size}}'
+    display_name: "{{ volume_name }} "
+    volume_type: "{{storage_template_id}}"
+  register: volume_info
+
+- name: Attaching volume to IBM i VM
+  os_server_volume:
+    state: present
+    cloud: '{{cloud_name}}'
+    server: "{{ vm }}"
+    volume: "{{ volume_info.id }}" 
+
+

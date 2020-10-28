@@ -1,0 +1,16 @@
+---
+- hosts: ibmi
+  gather_facts: false
+  collections:
+    - ibm.power_ibmi
+
+  tasks:
+
+    - name: Copy XH2 SAVF to Ansible library
+      ibmi_copy:
+        src: '/home/team1/playbooks/files/XH2.SAVF'
+        lib_name: 'ANSIBLE'
+        force: True
+      register: copy
+    - debug:
+       var: copy

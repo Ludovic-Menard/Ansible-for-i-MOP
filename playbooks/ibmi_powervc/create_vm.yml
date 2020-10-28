@@ -1,0 +1,41 @@
+---
+- name: IBM i VM initalization
+  hosts: localhost
+
+  vars:
+    cloud_name: 'pvcmop'
+    vm_name: 'IBMi_Team1'
+    vm_hostname: 'ludo' 
+    availability_zone: 'nova:828642A_102BABV'
+    image: 'IBMi_V7R4'
+    nics:
+      - net-name: "VL360"
+    vm_group: "Demo-ibmi"
+    user_data: |
+      {%- raw -%}#!/bin/sh
+      system "chgusrprf usrprf(qciuser) password(passw0rd) status(*enabled) usrcls(*secofr) spcaut(*allobj *iosyscfg *jobctl *secadm *audit *service *splctl *savsys)"
+      system "chgtcpsvr svrsrcval(*sshd) autostart(*yes)"  
+      system "strtcpsvr *sshd"
+      {% endraw %}
+    compute_template: 'IBMi' 
+
+  roles:
+    - role: vm_create
+
+  tasks:
+    - name: Add VM to Ansible in-memory inventory
+      add_host:
+        name: "{{ server_info.openstack.public_v4 }}"
+        ansible_user: qciuser 
+        ansible_ssh_pass: passw0rd
+        groups: new_vm
+        ansible_ssh_extra_args: -o StrictHostKeyChecking=no
+        ansible_python_interpreter: /QOpensys/pkgs/bin/python2
+
+- name: Verify connection to VM
+  hosts: new_vm
+  gather_facts: False
+  tasks:
+    - name: Wait for VM to become reachable over SSH
+      wait_for_connection:
+        delay: 240

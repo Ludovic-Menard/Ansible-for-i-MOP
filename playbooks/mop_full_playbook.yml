@@ -1,0 +1,5 @@
+- import_playbook: mop_create_user.yml
+- import_playbook: mop_create_library.yml
+- import_playbook: mop_copy_savf.yml
+- import_playbook: mop_install_xh2.yml
+- import_playbook: mop_configure_xh2.yml  

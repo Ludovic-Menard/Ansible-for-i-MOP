@@ -1,0 +1,25 @@
+---
+- hosts: ibmi
+  gather_facts: false
+  collections:
+    - ibm.power_ibmi
+
+  tasks:
+    
+    - name: configure iSeries Acces For Web -- CFGACCWEB --
+      ibmi_cl_command:
+        cmd: CFGACCWEB APPSVRTYPE(*INTAPPSVR) INSTANCE(*MOBILE)
+        joblog: false
+      register: cfgaccweb
+    - debug:
+       var: cfgaccweb
+
+    - name: start server HTTP
+      ibmi_tcp_server_service:
+        name_list: ['*HTTP']
+        state: 'started'
+        extra_parameters: 'INSTANCE(*ADMIN)'
+        joblog: true
+      register: start_result
+    - debug:
+       var: start_result 

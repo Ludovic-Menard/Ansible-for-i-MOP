@@ -1,0 +1,14 @@
+- name:  iASP configuration -> Send iASP configuration script to IBM i VM {{ vm_name }}
+  copy: 
+    src: 'autoConfigureDisk.py' 
+    dest: '/tmp/'
+    mode: 0755
+
+- name: iASP configuration -> Configuring and varying on iASP
+  command: '{{ ansible_python_interpreter }} /tmp/autoConfigureDisk.py -n {{ item.iasp_name }} -b N -c {{ item.iasp_capacity }} -v Y'
+  with_items: "{{ iasp_info }}"
+
+- name: iASP configuration -> iASP configured, print its info
+  debug:
+    msg: "{{ item.iasp_name}} has been configured"
+  with_items: " {{ iasp_info }} "

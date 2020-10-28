@@ -1,0 +1,21 @@
+ADDLICKEY PRDID(5733ICC)
+          LICTRM(V1R1M0)
+          FEATURE(5101)
+          SERIAL(*LOCAL)
+          PRCGRP(*ANY)
+          LICKEY(AE3A0A BC93DE 9C0201)
+          USGLMT(1998)
+          EXPDATE(*NONE)
+          VNDDTA(*NONE)   
+
+
+ADDLICKEY PRDID(5770BR1)
+          LICTRM(V7R4M0)
+          FEATURE(5102)
+          SERIAL(*LOCAL)
+          PRCGRP(P20)
+          LICKEY(54F1C9 F6E101 92EB01)
+          USGLMT(*NOMAX)
+          EXPDATE(*NONE)
+          VNDDTA(*NONE)
+

@@ -1,0 +1,38 @@
+VI Editing commands
+i - Insert at cursor (goes into insert mode)
+a - Write after cursor (goes into insert mode)
+A - Write at the end of line (goes into insert mode)
+ESC - Terminate insert mode
+u - Undo last change
+U - Undo all changes to the entire line
+o - Open a new line (goes into insert mode)
+dd - Delete line
+3dd - Delete 3 lines.
+D - Delete contents of line after the cursor
+C - Delete contents of a line after the cursor and insert new text. Press ESC key to end insertion.
+dw - Delete word
+4dw - Delete 4 words
+cw - Change word
+x - Delete character at the cursor
+r - Replace character
+R - Overwrite characters from cursor onward
+s - Substitute one character under cursor continue to insert
+S - Substitute entire line and begin to insert at the beginning of the line
+~ - Change case of individual character
+Note: You should be in the "command mode" to execute these commands. VI editor is case-sensitive so make sure you type the commands in the right letter-case.
+
+Make sure you press the right command otherwise you will end up making undesirable changes to the file. You can also enter the insert mode by pressing a, A, o, as required.
+
+Moving within a file
+k - Move cursor up
+j - Move cursor down
+h - Move cursor left
+l - Move cursor right
+You need to be in the command mode to move within a file. The default keys for navigation are mentioned below else; You can also use the arrow keys on the keyboard.
+
+Saving and Closing the file
+Shift+zz - Save the file and quit
+:w - Save the file but keep it open
+:q - Quit without saving
+:wq - Save the file and quit
+You should be in the command mode to exit the editor and save changes to the file.

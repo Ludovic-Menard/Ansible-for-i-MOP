@@ -1,0 +1,15 @@
+---
+- hosts: ibmi
+  gather_facts: false
+  collections:
+    - ibm.power_ibmi
+  tasks:
+
+    - name: install product from SAVF
+      ibmi_install_product_from_savf:
+        product: 5770XH2
+        savf_name: 'XH2'
+        savf_library: 'ANSIBLE'
+      register: install
+    - debug:
+        var: install
