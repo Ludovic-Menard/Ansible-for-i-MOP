@@ -25,7 +25,7 @@
     - name: delete TeamX user profile
       ibmi_user_and_group:
         operation: 'delete'
-        user: 'team1'
+        user: 'xxxxx'
       register: user_result
     - debug:
        var: user_result
