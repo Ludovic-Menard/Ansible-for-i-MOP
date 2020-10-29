@@ -15,7 +15,7 @@
     - debug:
        var: user_result
 
-    - name: display user profile team1
+    - name: display user profile xxxxx
       ibmi_user_and_group:
         operation: 'display'
-        user: 'team1'
+        user: 'xxxxx'
