@@ -1,0 +1,12 @@
+---
+- name: IBM i VM deletation
+  hosts: localhost
+
+  vars:
+    cloud_name: 'pvcmop'
+    vm_name: 'IBMi_TeamX'
+    vm_hostname: 'ludo' 
+    availability_zone: 'nova:828642A_102BABV' 
+
+  roles:
+    - role: vm_delete
