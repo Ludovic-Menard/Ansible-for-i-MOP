@@ -9,4 +9,4 @@
 
 - name: Deleting IBM i VM {{ vm_name }}
   debug:
-    var: server_info.openstack.public_v4
+    var: server_info
